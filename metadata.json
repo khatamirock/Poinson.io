@@ -1,0 +1,6 @@
+{
+  "name": "The Battle of Wits",
+  "description": "A 2-player pass-and-play game of deception and choice where one player hides venom in a cup and the other must guess the safe one.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
