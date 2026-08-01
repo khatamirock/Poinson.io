@@ -21,24 +21,6 @@ export default function PerfectCircle() {
     if (!ctx) return;
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw center dot
-    ctx.beginPath();
-    ctx.arc(canvas.width / 2, canvas.height / 2, 4, 0, Math.PI * 2);
-    ctx.fillStyle = '#cbd5e1'; // slate-300
-    ctx.fill();
-    ctx.closePath();
-    
-    // Draw crosshair faintly
-    ctx.beginPath();
-    ctx.moveTo(canvas.width / 2, canvas.height / 2 - 12);
-    ctx.lineTo(canvas.width / 2, canvas.height / 2 + 12);
-    ctx.moveTo(canvas.width / 2 - 12, canvas.height / 2);
-    ctx.lineTo(canvas.width / 2 + 12, canvas.height / 2);
-    ctx.strokeStyle = '#475569'; // slate-600
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.closePath();
   }, []);
 
   useEffect(() => {
@@ -108,7 +90,7 @@ export default function PerfectCircle() {
 
   const calculateScore = (pts: {x: number, y: number}[]) => {
     const canvas = canvasRef.current;
-    if (!canvas || pts.length < 10) return 0;
+    if (!canvas || pts.length < 20) return 0;
     
     const cx = canvas.width / 2;
     const cy = canvas.height / 2;
@@ -122,34 +104,42 @@ export default function PerfectCircle() {
     
     const avgRadius = totalRadius / pts.length;
     
+    // 1. Calculate accuracy based on deviation from perfect circle (avgRadius)
     let errorSum = 0;
     radii.forEach(r => {
       errorSum += Math.abs(r - avgRadius);
     });
-    
     const avgError = errorSum / pts.length;
     
-    // Base accuracy calculation
-    let accuracy = 100 - (avgError / avgRadius) * 100;
+    // Base score - stricter penalty for deviation
+    let accuracy = 100 - (avgError / avgRadius) * 200;
     
-    // Calculate swept angle to ensure it's a full circle
-    let angleSwept = 0;
-    for (let i = 1; i < pts.length; i++) {
-      const a1 = Math.atan2(pts[i-1].y - cy, pts[i-1].x - cx);
-      const a2 = Math.atan2(pts[i].y - cy, pts[i].x - cx);
-      let diff = a2 - a1;
-      while (diff > Math.PI) diff -= 2 * Math.PI;
-      while (diff < -Math.PI) diff += 2 * Math.PI;
-      angleSwept += diff;
+    // 2. Angular coverage - must surround the center
+    const angleBins = new Set<number>();
+    pts.forEach(p => {
+      let angle = Math.atan2(p.y - cy, p.x - cx);
+      let deg = (angle * 180) / Math.PI;
+      if (deg < 0) deg += 360;
+      angleBins.add(Math.floor(deg / 10)); // 36 bins of 10 degrees
+    });
+    
+    const coverage = angleBins.size / 36;
+    if (coverage < 0.9) {
+      // If they didn't draw a full circle around the center (less than ~320 degrees)
+      return 0;
+    }
+
+    // 3. Check for closing the loop
+    const startPt = pts[0];
+    const endPt = pts[pts.length - 1];
+    const gapDist = Math.sqrt(Math.pow(startPt.x - endPt.x, 2) + Math.pow(startPt.y - endPt.y, 2));
+    if (gapDist > avgRadius * 0.4) {
+      accuracy -= 15; // Penalty if the ends don't meet
     }
     
-    const absAngle = Math.abs(angleSwept);
-    if (absAngle < Math.PI * 1.8) {
-      accuracy -= 40; // Heavy penalty for incomplete circle
-    }
-    
+    // 4. Size penalty (too small = too easy to draw)
     if (avgRadius < 40) {
-      accuracy -= 30; // Penalty for drawing too small
+      accuracy -= 40;
     }
     
     return Math.max(0, Math.min(99.9, accuracy));
@@ -235,7 +225,18 @@ export default function PerfectCircle() {
                 </p>
               </div>
 
-              <div className="relative p-2 border border-slate-800 bg-slate-900 shadow-2xl rounded-sm">
+              <div className="relative flex items-center justify-center">
+                {/* Visual Center Point */}
+                <div className={`absolute w-4 h-4 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.6)] pointer-events-none animate-pulse z-20 flex items-center justify-center ${gameState === 'p1_turn' ? 'bg-violet-400' : 'bg-pink-400'}`}>
+                  <div className="w-1.5 h-1.5 rounded-full bg-slate-950"></div>
+                </div>
+                
+                {/* Visual Crosshairs */}
+                <div className="absolute w-12 h-12 pointer-events-none z-10 opacity-50">
+                  <div className="absolute top-1/2 left-0 w-full h-[2px] bg-slate-600 -translate-y-1/2 rounded-full"></div>
+                  <div className="absolute left-1/2 top-0 h-full w-[2px] bg-slate-600 -translate-x-1/2 rounded-full"></div>
+                </div>
+
                 <canvas
                   ref={canvasRef}
                   width={320}
@@ -248,7 +249,7 @@ export default function PerfectCircle() {
                   onTouchMove={draw}
                   onTouchEnd={stopDrawing}
                   onTouchCancel={stopDrawing}
-                  className="bg-slate-950 cursor-crosshair touch-none w-[280px] h-[280px] sm:w-[320px] sm:h-[320px]"
+                  className="bg-transparent cursor-crosshair touch-none w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] z-30 relative"
                 />
               </div>
             </motion.div>
