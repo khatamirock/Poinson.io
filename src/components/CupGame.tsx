@@ -65,18 +65,18 @@ export default function CupGame() {
               <p className="text-slate-500 text-sm max-w-xs mx-auto leading-relaxed">Select one vessel to lace with venom. Your opponent must guess which one is lethal.</p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-8 sm:gap-16">
+            <div className="flex flex-row gap-4 sm:gap-16">
               {[0, 1].map((cupIndex) => (
                 <button
                   key={cupIndex}
                   onClick={() => handlePlayer1Select(cupIndex)}
                   disabled={isPoisoning !== null}
-                  className="relative group flex flex-col items-center justify-center p-8 w-64 h-72 border border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10 transition-colors disabled:pointer-events-none"
+                  className="relative group flex flex-col items-center justify-center p-2 sm:p-8 w-36 sm:w-64 h-48 sm:h-72 border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors disabled:pointer-events-none cursor-pointer"
                 >
                   {/* Geometric Cup */}
-                  <div className={`w-20 h-28 border-x-4 border-b-4 relative mb-6 transition-colors duration-500 ${isPoisoning === cupIndex ? 'border-emerald-400' : 'border-emerald-500/70 group-hover:border-emerald-500'}`}>
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-emerald-500/20 group-hover:bg-emerald-500/40 transition-colors"></div>
-                    <div className={`absolute top-0 -left-2 -right-2 h-1 transition-colors ${isPoisoning === cupIndex ? 'bg-emerald-400' : 'bg-emerald-500/70 group-hover:bg-emerald-500'}`}></div>
+                  <div className={`w-12 sm:w-20 h-20 sm:h-28 border-x-4 border-b-4 relative mb-4 sm:mb-6 transition-colors duration-500 ${isPoisoning === cupIndex ? 'border-emerald-400' : 'border-emerald-500 group-hover:border-emerald-400'}`}>
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-emerald-500/30 group-hover:bg-emerald-500/50 transition-colors"></div>
+                    <div className={`absolute top-0 -left-2 -right-2 h-1 transition-colors ${isPoisoning === cupIndex ? 'bg-emerald-400' : 'bg-emerald-500 group-hover:bg-emerald-400'}`}></div>
                     <AnimatePresence>
                       {isPoisoning === cupIndex && (
                         <motion.div
@@ -142,17 +142,17 @@ export default function CupGame() {
               <p className="text-slate-500 text-sm max-w-xs mx-auto leading-relaxed">Analyze the risk. One cup leads to victory, the other to certain doom.</p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-8 sm:gap-16 mb-8">
+            <div className="flex flex-row gap-4 sm:gap-16 mb-8">
               {cupsOrder.map((cupIndex) => (
                 <motion.button
                   layout
                   key={cupIndex}
                   onClick={() => handlePlayer2Guess(cupIndex)}
-                  className="relative group flex flex-col items-center justify-center p-8 w-64 h-72 border border-slate-700 bg-slate-800/20 hover:bg-slate-800/50 transition-colors"
+                  className="relative group flex flex-col items-center justify-center p-2 sm:p-8 w-36 sm:w-64 h-48 sm:h-72 border border-slate-500 bg-slate-800/50 hover:bg-slate-700/60 transition-colors cursor-pointer"
                 >
-                  <div className="w-20 h-28 border-x-4 border-b-4 border-slate-600 group-hover:border-slate-400 relative mb-6 transition-colors duration-300">
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-slate-700/20 group-hover:bg-slate-500/20 transition-colors"></div>
-                    <div className="absolute top-0 -left-2 -right-2 h-1 bg-slate-600 group-hover:bg-slate-400 transition-colors"></div>
+                  <div className="w-12 sm:w-20 h-20 sm:h-28 border-x-4 border-b-4 border-slate-400 group-hover:border-slate-300 relative mb-4 sm:mb-6 transition-colors duration-300">
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-slate-400/20 group-hover:bg-slate-300/30 transition-colors"></div>
+                    <div className="absolute top-0 -left-2 -right-2 h-1 bg-slate-400 group-hover:bg-slate-300 transition-colors"></div>
                   </div>
                   <span className="text-xs font-bold tracking-widest uppercase text-slate-300">
                     Vessel {cupIndex === 0 ? 'Alpha' : 'Omega'}
