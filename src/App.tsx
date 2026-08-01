@@ -208,7 +208,7 @@ export default function App() {
                 </button>
               </div>
               
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center z-20">
+              <div className="mt-12 text-center z-20 pb-4">
                 <p className="text-[10px] tracking-[0.3em] uppercase text-slate-600 font-light drop-shadow-md">
                   Dev by <span className="text-emerald-500 font-bold italic drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]">Khatami</span>
                 </p>
