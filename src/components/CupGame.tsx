@@ -253,8 +253,8 @@ export default function CupGame() {
       </footer>
       
       {/* Background Geometry */}
-      <div className="absolute bottom-16 left-0 w-64 h-64 bg-slate-900 -translate-x-32 translate-y-32 rotate-45 pointer-events-none z-0"></div>
-      <div className="absolute top-0 right-0 w-96 h-96 bg-slate-900/50 translate-x-48 -translate-y-48 rotate-45 pointer-events-none z-0"></div>
+      <div className="absolute bottom-16 left-0 w-64 h-64 bg-slate-900 -translate-x-32 translate-y-32 rotate-45 pointer-events-none -z-10"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-slate-900/50 translate-x-48 -translate-y-48 rotate-45 pointer-events-none -z-10"></div>
     </div>
   );
 }
