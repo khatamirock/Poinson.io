@@ -93,9 +93,6 @@ export default function CupGame() {
                       )}
                     </AnimatePresence>
                   </div>
-                  <span className="text-xs font-bold tracking-widest uppercase text-slate-300">
-                    Vessel {cupIndex === 0 ? 'Alpha' : 'Omega'}
-                  </span>
                   <span className={`mt-2 text-[10px] font-bold tracking-widest text-emerald-400 uppercase transition-opacity ${isPoisoning === null ? 'opacity-0 group-hover:opacity-100' : 'opacity-0'}`}>
                     Click to Lace
                   </span>
@@ -154,9 +151,6 @@ export default function CupGame() {
                     <div className="absolute inset-x-0 bottom-0 h-1/2 bg-slate-400/20 group-hover:bg-slate-300/30 transition-colors"></div>
                     <div className="absolute top-0 -left-2 -right-2 h-1 bg-slate-400 group-hover:bg-slate-300 transition-colors"></div>
                   </div>
-                  <span className="text-xs font-bold tracking-widest uppercase text-slate-300">
-                    Vessel {cupIndex === 0 ? 'Alpha' : 'Omega'}
-                  </span>
                   <span className="mt-2 text-[10px] font-bold tracking-widest text-purple-400 opacity-0 group-hover:opacity-100 uppercase transition-opacity">
                     Select Vessel
                   </span>
