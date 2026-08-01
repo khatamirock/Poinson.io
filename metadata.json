@@ -1,6 +1,6 @@
 {
   "name": "Game.Hub Mini-Games",
-  "description": "A dark-themed geometric game hub featuring two-player games: Venom.io (a cup poisoning deception game) and Russian Roulette (a high-stakes luck game).",
+  "description": "A dark-themed geometric game hub featuring multiple two-player games: Venom.io, Russian Roulette, Grid War, and Quick Draw.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

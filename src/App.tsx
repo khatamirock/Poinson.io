@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import CupGame from './components/CupGame';
 import RussianRoulette from './components/RussianRoulette';
 import NeonTicTacToe from './components/NeonTicTacToe';
-import { Play, Wine, Target, ArrowLeft, Grid3X3 } from 'lucide-react';
+import QuickDraw from './components/QuickDraw';
+import PerfectCircle from './components/PerfectCircle';
+import { Play, Wine, Target, ArrowLeft, Grid3X3, Zap, CircleDashed } from 'lucide-react';
 
 export default function App() {
-  const [activeGame, setActiveGame] = useState<'menu' | 'venom' | 'roulette' | 'grid'>('menu');
+  const [activeGame, setActiveGame] = useState<'menu' | 'venom' | 'roulette' | 'grid' | 'draw' | 'circle'>('menu');
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 font-sans flex flex-col items-center justify-center p-4 sm:p-8">
@@ -106,6 +108,44 @@ export default function App() {
                     </div>
                   </div>
                 </button>
+
+                {/* Quick Draw Card */}
+                <button 
+                  onClick={() => setActiveGame('draw')}
+                  className="group relative w-full sm:w-80 h-64 sm:h-96 border border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10 transition-colors flex flex-col p-6 sm:p-8 text-left cursor-pointer overflow-hidden shrink-0"
+                >
+                  <div className="absolute top-1/2 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-amber-500/10 transform translate-x-12 -translate-y-1/2 sm:translate-x-16 rotate-45 group-hover:scale-110 transition-transform duration-500"></div>
+                  
+                  <Zap size={36} className="text-amber-500 mb-6 sm:mb-8 sm:w-12 sm:h-12" strokeWidth={1} />
+                  
+                  <div className="mt-auto">
+                    <h3 className="text-xl sm:text-2xl font-light tracking-widest uppercase text-slate-200 mb-1 sm:mb-2">Quick Draw</h3>
+                    <p className="text-[10px] sm:text-xs text-slate-500 tracking-widest uppercase mb-4 sm:mb-6 leading-relaxed">Wait for the signal. Fastest reaction survives.</p>
+                    
+                    <div className="flex items-center gap-2 text-[10px] font-bold text-amber-400 uppercase tracking-widest">
+                      Initialize <Play size={12} className="group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </button>
+
+                {/* Perfect Circle Card */}
+                <button 
+                  onClick={() => setActiveGame('circle')}
+                  className="group relative w-full sm:w-80 h-64 sm:h-96 border border-violet-500/30 bg-violet-500/5 hover:bg-violet-500/10 transition-colors flex flex-col p-6 sm:p-8 text-left cursor-pointer overflow-hidden shrink-0"
+                >
+                  <div className="absolute top-0 left-0 w-24 h-24 sm:w-32 sm:h-32 bg-violet-500/10 transform -translate-x-12 -translate-y-12 sm:-translate-x-16 sm:-translate-y-16 rounded-full group-hover:scale-110 transition-transform duration-500"></div>
+                  
+                  <CircleDashed size={36} className="text-violet-500 mb-6 sm:mb-8 sm:w-12 sm:h-12" strokeWidth={1} />
+                  
+                  <div className="mt-auto">
+                    <h3 className="text-xl sm:text-2xl font-light tracking-widest uppercase text-slate-200 mb-1 sm:mb-2">Perfect Circle</h3>
+                    <p className="text-[10px] sm:text-xs text-slate-500 tracking-widest uppercase mb-4 sm:mb-6 leading-relaxed">Draw a flawless circle. Accuracy is everything.</p>
+                    
+                    <div className="flex items-center gap-2 text-[10px] font-bold text-violet-400 uppercase tracking-widest">
+                      Initialize <Play size={12} className="group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </button>
               </div>
               
               <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-64 sm:h-64 bg-slate-900 -translate-x-24 translate-y-24 sm:-translate-x-32 sm:translate-y-32 rotate-45 pointer-events-none -z-10"></div>
@@ -115,6 +155,8 @@ export default function App() {
           {activeGame === 'venom' && <CupGame />}
           {activeGame === 'roulette' && <RussianRoulette />}
           {activeGame === 'grid' && <NeonTicTacToe />}
+          {activeGame === 'draw' && <QuickDraw />}
+          {activeGame === 'circle' && <PerfectCircle />}
         </main>
       </div>
     </div>
