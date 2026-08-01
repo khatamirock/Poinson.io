@@ -15,10 +15,15 @@ export default function ChronoStop() {
   const startTimeRef = useRef<number>(0);
   const rafRef = useRef<number | null>(null);
 
-  const TARGET_TIME = 7000;
+  const [targetTime, setTargetTime] = useState(7000);
+
   const VISIBLE_TIME = 2500;
 
   const startGame = () => {
+    // Generate a random target time between 7.000 and 13.000 seconds
+    const randomTarget = Math.floor(Math.random() * (13000 - 7000 + 1)) + 7000;
+    setTargetTime(randomTarget);
+    
     setGameState('playing');
     setP1Time(null);
     setP2Time(null);
@@ -50,8 +55,8 @@ export default function ChronoStop() {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       setGameState('result');
       
-      const p1Diff = Math.abs(p1Time - TARGET_TIME);
-      const p2Diff = Math.abs(p2Time - TARGET_TIME);
+      const p1Diff = Math.abs(p1Time - targetTime);
+      const p2Diff = Math.abs(p2Time - targetTime);
       
       if (p1Diff < p2Diff) setP1Score(s => s + 1);
       else if (p2Diff < p1Diff) setP2Score(s => s + 1);
@@ -86,7 +91,7 @@ export default function ChronoStop() {
               </div>
               <h2 className="text-3xl sm:text-4xl font-light tracking-tight mb-4 uppercase">Chrono Stop</h2>
               <p className="text-slate-500 text-sm leading-relaxed mb-12 uppercase tracking-widest">
-                Stop your clock at exactly 7.000 seconds. <br/>The timer goes dark after 2.5 seconds. Trust your inner rhythm.
+                Stop your clock exactly at the target time. <br/>The timer goes dark after 2.5 seconds. Trust your inner rhythm.
               </p>
               
               <button
@@ -108,7 +113,7 @@ export default function ChronoStop() {
             >
               {/* Central Timer */}
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-none">
-                <h3 className="text-slate-500 text-xs font-bold tracking-widest uppercase mb-4">Target: 7.000s</h3>
+                <h3 className="text-slate-500 text-xs font-bold tracking-widest uppercase mb-4">Target: {formatTime(targetTime)}s</h3>
                 <div className={`text-6xl sm:text-8xl font-mono tracking-tighter ${displayTime >= VISIBLE_TIME ? 'text-slate-900 drop-shadow-none' : 'text-orange-400 drop-shadow-[0_0_25px_rgba(249,115,22,0.6)]'}`}>
                   {formatTime(Math.min(displayTime, VISIBLE_TIME))}
                 </div>
@@ -160,9 +165,9 @@ export default function ChronoStop() {
               </div>
               
               <h2 className="text-4xl sm:text-5xl font-light tracking-widest uppercase mb-12 text-slate-200">
-                {Math.abs(p1Time! - TARGET_TIME) < Math.abs(p2Time! - TARGET_TIME) ? (
+                {Math.abs(p1Time! - targetTime) < Math.abs(p2Time! - targetTime) ? (
                   <>Player 1 <span className="text-emerald-500 font-bold">Wins</span></>
-                ) : Math.abs(p2Time! - TARGET_TIME) < Math.abs(p1Time! - TARGET_TIME) ? (
+                ) : Math.abs(p2Time! - targetTime) < Math.abs(p1Time! - targetTime) ? (
                   <>Player 2 <span className="text-purple-500 font-bold">Wins</span></>
                 ) : (
                   <>It's a <span className="text-slate-400 font-bold">Tie</span></>
@@ -174,7 +179,7 @@ export default function ChronoStop() {
                   <span className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-2">Player 1 Time</span>
                   <span className="text-3xl font-mono text-emerald-400">{formatTime(p1Time!)}s</span>
                   <span className="text-xs text-emerald-500/50 mt-1 uppercase tracking-widest">
-                    Diff: {formatTime(Math.abs(p1Time! - TARGET_TIME))}s
+                    Diff: {formatTime(Math.abs(p1Time! - targetTime))}s
                   </span>
                 </div>
                 
@@ -184,7 +189,7 @@ export default function ChronoStop() {
                   <span className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-2">Player 2 Time</span>
                   <span className="text-3xl font-mono text-purple-400">{formatTime(p2Time!)}s</span>
                   <span className="text-xs text-purple-500/50 mt-1 uppercase tracking-widest">
-                    Diff: {formatTime(Math.abs(p2Time! - TARGET_TIME))}s
+                    Diff: {formatTime(Math.abs(p2Time! - targetTime))}s
                   </span>
                 </div>
               </div>
