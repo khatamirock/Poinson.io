@@ -7,8 +7,9 @@ type GameState = 'setup' | 'p1_turn' | 'p1_result' | 'p2_turn' | 'result';
 export default function PerfectCircle() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [gameState, setGameState] = useState<GameState>('setup');
-  const [isDrawing, setIsDrawing] = useState(false);
-  const [points, setPoints] = useState<{x: number, y: number}[]>([]);
+  
+  const isDrawingRef = useRef(false);
+  const pointsRef = useRef<{x: number, y: number}[]>([]);
   
   const [p1Score, setP1Score] = useState<number | null>(null);
   const [p2Score, setP2Score] = useState<number | null>(null);
@@ -43,11 +44,12 @@ export default function PerfectCircle() {
   useEffect(() => {
     if (gameState === 'p1_turn' || gameState === 'p2_turn') {
       drawCenter();
-      setPoints([]);
+      pointsRef.current = [];
+      isDrawingRef.current = false;
     }
   }, [gameState, drawCenter]);
 
-  const getCoordinates = (e: React.MouseEvent | React.TouchEvent | TouchEvent) => {
+  const getCoordinates = (e: React.MouseEvent | React.TouchEvent | TouchEvent | MouseEvent) => {
     const canvas = canvasRef.current;
     if (!canvas) return { x: 0, y: 0 };
     
@@ -56,12 +58,12 @@ export default function PerfectCircle() {
     const scaleY = canvas.height / rect.height;
     
     let clientX, clientY;
-    if ('touches' in e) {
+    if ('touches' in e && (e as any).touches?.length > 0) {
       clientX = (e as TouchEvent).touches[0].clientX;
       clientY = (e as TouchEvent).touches[0].clientY;
     } else {
-      clientX = (e as React.MouseEvent).clientX;
-      clientY = (e as React.MouseEvent).clientY;
+      clientX = (e as MouseEvent).clientX;
+      clientY = (e as MouseEvent).clientY;
     }
     
     return {
@@ -72,9 +74,9 @@ export default function PerfectCircle() {
 
   const startDrawing = (e: React.MouseEvent | React.TouchEvent) => {
     if (gameState !== 'p1_turn' && gameState !== 'p2_turn') return;
-    setIsDrawing(true);
+    isDrawingRef.current = true;
     const coords = getCoordinates(e.nativeEvent);
-    setPoints([coords]);
+    pointsRef.current = [coords];
     
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d');
@@ -86,11 +88,11 @@ export default function PerfectCircle() {
   };
 
   const draw = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!isDrawing) return;
+    if (!isDrawingRef.current) return;
     if (gameState !== 'p1_turn' && gameState !== 'p2_turn') return;
     
     const coords = getCoordinates(e.nativeEvent);
-    setPoints(prev => [...prev, coords]);
+    pointsRef.current.push(coords);
     
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d');
@@ -154,11 +156,11 @@ export default function PerfectCircle() {
   };
 
   const stopDrawing = () => {
-    if (!isDrawing) return;
-    setIsDrawing(false);
+    if (!isDrawingRef.current) return;
+    isDrawingRef.current = false;
     
     if (gameState === 'p1_turn' || gameState === 'p2_turn') {
-      const finalScore = calculateScore(points);
+      const finalScore = calculateScore(pointsRef.current);
       
       if (gameState === 'p1_turn') {
         setP1Score(finalScore);
@@ -178,13 +180,13 @@ export default function PerfectCircle() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const preventDefault = (e: TouchEvent) => {
-      if (isDrawing) e.preventDefault();
+      if (isDrawingRef.current) e.preventDefault();
     };
     canvas.addEventListener('touchmove', preventDefault, { passive: false });
     return () => {
       canvas.removeEventListener('touchmove', preventDefault);
     };
-  }, [isDrawing]);
+  }, []);
 
   return (
     <div className="relative w-full h-full flex flex-col">
@@ -243,7 +245,9 @@ export default function PerfectCircle() {
                   onMouseUp={stopDrawing}
                   onMouseLeave={stopDrawing}
                   onTouchStart={startDrawing}
+                  onTouchMove={draw}
                   onTouchEnd={stopDrawing}
+                  onTouchCancel={stopDrawing}
                   className="bg-slate-950 cursor-crosshair touch-none w-[280px] h-[280px] sm:w-[320px] sm:h-[320px]"
                 />
               </div>
