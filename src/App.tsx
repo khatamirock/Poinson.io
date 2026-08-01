@@ -13,7 +13,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 font-sans flex flex-col items-center justify-center p-4 sm:p-8">
-      <div className="w-full max-w-5xl flex flex-col border-4 sm:border-8 border-slate-900 bg-slate-950 shadow-2xl relative overflow-hidden min-h-[600px] h-[85vh] sm:h-[800px]">
+      <div className="w-full max-w-7xl flex flex-col border-4 sm:border-8 border-slate-900 bg-slate-950 shadow-2xl relative overflow-hidden min-h-[600px] h-[95vh] sm:h-[85vh]">
         {/* Header: Geometric Navigation */}
         <nav className="h-16 flex items-center justify-between px-8 md:px-12 border-b border-slate-800 bg-slate-900/50 z-20 shrink-0">
           <div className="flex items-center gap-4">
@@ -53,7 +53,7 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-6 sm:gap-12 w-full max-w-5xl justify-center items-center pb-12 sm:pb-0 overflow-x-auto px-4">
+              <div className="flex flex-wrap gap-6 sm:gap-8 w-full max-w-6xl justify-center items-center pb-12 sm:pb-16 px-4">
                 {/* Venom.io Card */}
                 <button 
                   onClick={() => setActiveGame('venom')}
