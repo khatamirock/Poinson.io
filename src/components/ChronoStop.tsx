@@ -20,8 +20,8 @@ export default function ChronoStop() {
   const VISIBLE_TIME = 2500;
 
   const startGame = () => {
-    // Generate a random target time between 7.000 and 13.000 seconds
-    const randomTarget = Math.floor(Math.random() * (13000 - 7000 + 1)) + 7000;
+    // Generate a random target time between 7.000 and 13.000 seconds in whole seconds
+    const randomTarget = (Math.floor(Math.random() * 7) + 7) * 1000;
     setTargetTime(randomTarget);
     
     setGameState('playing');
