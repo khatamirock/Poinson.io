@@ -39,14 +39,14 @@ export default function App() {
             <span className="text-slate-500 underline decoration-slate-700 underline-offset-4 cursor-pointer hover:text-slate-300">Docs</span>
           </div>
           <div className="w-32 h-8 bg-slate-800 rounded-sm hidden sm:flex items-center justify-center border border-slate-700">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Vercel V2.4</span>
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Khatami V2.4</span>
           </div>
         </nav>
 
         {/* Main Content */}
         <main className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden relative">
           {activeGame === 'menu' && (
-            <div className="flex-1 flex flex-col items-center justify-start sm:justify-center p-6 sm:p-8 z-10 min-h-max w-full">
+            <div className="flex-1 flex flex-col items-center justify-start sm:justify-center p-6 sm:p-8 z-10 min-h-max w-full pb-20 sm:pb-24">
               <div className="text-center mb-8 sm:mb-16 mt-4 sm:mt-0">
                 <h1 className="text-4xl sm:text-6xl font-light tracking-tight mb-3 sm:mb-4 uppercase">Select <span className="text-emerald-400 font-bold italic">Game</span></h1>
                 <p className="text-slate-500 text-xs sm:text-sm tracking-widest uppercase max-w-md mx-auto">
@@ -208,6 +208,12 @@ export default function App() {
                 </button>
               </div>
               
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center z-20">
+                <p className="text-[10px] tracking-[0.3em] uppercase text-slate-600 font-light drop-shadow-md">
+                  Dev by <span className="text-emerald-500 font-bold italic drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]">Khatami</span>
+                </p>
+              </div>
+
               <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-64 sm:h-64 bg-slate-900 -translate-x-24 translate-y-24 sm:-translate-x-32 sm:translate-y-32 rotate-45 pointer-events-none -z-10"></div>
             </div>
           )}
