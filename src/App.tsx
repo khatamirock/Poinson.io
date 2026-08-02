@@ -7,10 +7,11 @@ import PerfectCircle from './components/PerfectCircle';
 import ChronoStop from './components/ChronoStop';
 import DotsAndBoxes from './components/DotsAndBoxes';
 import FourInARow from './components/FourInARow';
-import { Play, Wine, Target, ArrowLeft, Grid3X3, Zap, CircleDashed, Timer, Grip, Columns } from 'lucide-react';
+import MemoryMatch from './components/MemoryMatch';
+import { Play, Wine, Target, ArrowLeft, Grid3X3, Zap, CircleDashed, Timer, Grip, Columns, Brain } from 'lucide-react';
 
 export default function App() {
-  const [activeGame, setActiveGame] = useState<'menu' | 'venom' | 'roulette' | 'grid' | 'draw' | 'circle' | 'chrono' | 'dots' | 'four'>('menu');
+  const [activeGame, setActiveGame] = useState<'menu' | 'venom' | 'roulette' | 'grid' | 'draw' | 'circle' | 'chrono' | 'dots' | 'four' | 'memory'>('menu');
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 font-sans flex flex-col items-center justify-center p-4 sm:p-8">
@@ -206,6 +207,25 @@ export default function App() {
                     </div>
                   </div>
                 </button>
+
+                {/* Memory Match Card */}
+                <button 
+                  onClick={() => setActiveGame('memory')}
+                  className="group relative w-full sm:w-80 h-64 sm:h-96 border border-teal-500/30 bg-teal-500/5 hover:bg-teal-500/10 transition-colors flex flex-col p-6 sm:p-8 text-left cursor-pointer overflow-hidden shrink-0"
+                >
+                  <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-teal-500/10 transform translate-x-12 -translate-y-12 sm:translate-x-16 sm:-translate-y-16 rotate-45 group-hover:scale-110 transition-transform duration-500"></div>
+                  
+                  <Brain size={36} className="text-teal-500 mb-6 sm:mb-8 sm:w-12 sm:h-12" strokeWidth={1} />
+                  
+                  <div className="mt-auto">
+                    <h3 className="text-xl sm:text-2xl font-light tracking-widest uppercase text-slate-200 mb-1 sm:mb-2">Memory Match</h3>
+                    <p className="text-[10px] sm:text-xs text-slate-500 tracking-widest uppercase mb-4 sm:mb-6 leading-relaxed">Uncover the pairs. Test your recall.</p>
+                    
+                    <div className="flex items-center gap-2 text-[10px] font-bold text-teal-400 uppercase tracking-widest">
+                      Initialize <Play size={12} className="group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </button>
               </div>
               
               <div className="mt-12 text-center z-20 pb-4">
@@ -226,6 +246,7 @@ export default function App() {
           {activeGame === 'chrono' && <ChronoStop />}
           {activeGame === 'dots' && <DotsAndBoxes />}
           {activeGame === 'four' && <FourInARow />}
+          {activeGame === 'memory' && <MemoryMatch />}
         </main>
       </div>
     </div>
